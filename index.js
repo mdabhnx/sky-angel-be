@@ -25,7 +25,12 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model("User", userSchema);
 
-app.use(cors());
+// Configure CORS to allow specific origin
+app.use(
+  cors({
+    origin: "https://sky-angel-chi.vercel.app",
+  })
+);
 
 app.get("/health", (_, res) => {
   res.json({
@@ -41,7 +46,7 @@ app.post("/register", async (req, res) => {
   try {
     await user.save();
     const leaderboard = await User.find()
-      .sort({ time: 1, stars: -1 })
+      .sort({ stars: -1, time: 1 })
       .select("id name time stars");
     res.json(leaderboard);
   } catch (error) {
