@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model("User", userSchema);
 
 app.use(cors());
+
+app.get("/health", (_, res) => {
+  res.json({
+    status: "OK",
+    timestamps: new Date(),
+  });
+});
+
 app.post("/register", async (req, res) => {
   const { name, time, stars } = req.body;
   const user = new User({ name, time, stars });
